@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="MostrarTareas">
+        <s:complexType />
+      </s:element>
+      <s:element name="MostrarTareasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MostrarTareasResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTareas">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tareas" nillable="true" type="tns:Tareas" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tareas">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Titulo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Descripcion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Color" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaInicio" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="FechaFin" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="IdPersona" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="porcentaje" nillable="true" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuscarTareas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="titulo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarTareasResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasCompletadas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="titulo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasCompletadasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarTareasCompletadasResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MostrarTareasCompletadas">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MostrarTareasCompletadasResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MostrarTareasCompletadasResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasPendientes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="titulo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasPendientesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarTareasPendientesResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MostrarTareasPendientes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MostrarTareasPendientesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MostrarTareasPendientesResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasSinComenzar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="titulo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscarTareasSinComenzarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscarTareasSinComenzarResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MostrarTareasSinComenzar">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MostrarTareasSinComenzarResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MostrarTareasSinComenzarResult" type="tns:ArrayOfTareas" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="MostrarTareasSoapIn">
+    <wsdl:part name="parameters" element="tns:MostrarTareas" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasSoapOut">
+    <wsdl:part name="parameters" element="tns:MostrarTareasResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarTareas" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarTareasResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasCompletadasSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarTareasCompletadas" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasCompletadasSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarTareasCompletadasResponse" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasCompletadasSoapIn">
+    <wsdl:part name="parameters" element="tns:MostrarTareasCompletadas" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasCompletadasSoapOut">
+    <wsdl:part name="parameters" element="tns:MostrarTareasCompletadasResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasPendientesSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarTareasPendientes" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasPendientesSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarTareasPendientesResponse" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasPendientesSoapIn">
+    <wsdl:part name="parameters" element="tns:MostrarTareasPendientes" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasPendientesSoapOut">
+    <wsdl:part name="parameters" element="tns:MostrarTareasPendientesResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasSinComenzarSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscarTareasSinComenzar" />
+  </wsdl:message>
+  <wsdl:message name="BuscarTareasSinComenzarSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscarTareasSinComenzarResponse" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasSinComenzarSoapIn">
+    <wsdl:part name="parameters" element="tns:MostrarTareasSinComenzar" />
+  </wsdl:message>
+  <wsdl:message name="MostrarTareasSinComenzarSoapOut">
+    <wsdl:part name="parameters" element="tns:MostrarTareasSinComenzarResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WSTareasSoap">
+    <wsdl:operation name="MostrarTareas">
+      <wsdl:input message="tns:MostrarTareasSoapIn" />
+      <wsdl:output message="tns:MostrarTareasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareas">
+      <wsdl:input message="tns:BuscarTareasSoapIn" />
+      <wsdl:output message="tns:BuscarTareasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasCompletadas">
+      <wsdl:input message="tns:BuscarTareasCompletadasSoapIn" />
+      <wsdl:output message="tns:BuscarTareasCompletadasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasCompletadas">
+      <wsdl:input message="tns:MostrarTareasCompletadasSoapIn" />
+      <wsdl:output message="tns:MostrarTareasCompletadasSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasPendientes">
+      <wsdl:input message="tns:BuscarTareasPendientesSoapIn" />
+      <wsdl:output message="tns:BuscarTareasPendientesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasPendientes">
+      <wsdl:input message="tns:MostrarTareasPendientesSoapIn" />
+      <wsdl:output message="tns:MostrarTareasPendientesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasSinComenzar">
+      <wsdl:input message="tns:BuscarTareasSinComenzarSoapIn" />
+      <wsdl:output message="tns:BuscarTareasSinComenzarSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasSinComenzar">
+      <wsdl:input message="tns:MostrarTareasSinComenzarSoapIn" />
+      <wsdl:output message="tns:MostrarTareasSinComenzarSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSTareasSoap" type="tns:WSTareasSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="MostrarTareas">
+      <soap:operation soapAction="http://tempuri.org/MostrarTareas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareas">
+      <soap:operation soapAction="http://tempuri.org/BuscarTareas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasCompletadas">
+      <soap:operation soapAction="http://tempuri.org/BuscarTareasCompletadas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasCompletadas">
+      <soap:operation soapAction="http://tempuri.org/MostrarTareasCompletadas" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasPendientes">
+      <soap:operation soapAction="http://tempuri.org/BuscarTareasPendientes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasPendientes">
+      <soap:operation soapAction="http://tempuri.org/MostrarTareasPendientes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasSinComenzar">
+      <soap:operation soapAction="http://tempuri.org/BuscarTareasSinComenzar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasSinComenzar">
+      <soap:operation soapAction="http://tempuri.org/MostrarTareasSinComenzar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WSTareasSoap12" type="tns:WSTareasSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="MostrarTareas">
+      <soap12:operation soapAction="http://tempuri.org/MostrarTareas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareas">
+      <soap12:operation soapAction="http://tempuri.org/BuscarTareas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasCompletadas">
+      <soap12:operation soapAction="http://tempuri.org/BuscarTareasCompletadas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasCompletadas">
+      <soap12:operation soapAction="http://tempuri.org/MostrarTareasCompletadas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasPendientes">
+      <soap12:operation soapAction="http://tempuri.org/BuscarTareasPendientes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasPendientes">
+      <soap12:operation soapAction="http://tempuri.org/MostrarTareasPendientes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscarTareasSinComenzar">
+      <soap12:operation soapAction="http://tempuri.org/BuscarTareasSinComenzar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MostrarTareasSinComenzar">
+      <soap12:operation soapAction="http://tempuri.org/MostrarTareasSinComenzar" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSTareas">
+    <wsdl:port name="WSTareasSoap" binding="tns:WSTareasSoap">
+      <soap:address location="http://localhost:56417/WSTareas.asmx" />
+    </wsdl:port>
+    <wsdl:port name="WSTareasSoap12" binding="tns:WSTareasSoap12">
+      <soap12:address location="http://localhost:56417/WSTareas.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

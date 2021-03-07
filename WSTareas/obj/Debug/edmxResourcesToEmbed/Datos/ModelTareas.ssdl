@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TareaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="persona">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="apellido" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="dni" Type="int" Nullable="false" />
+    <Property Name="telefono" Type="int" />
+    <Property Name="direccion" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="IdUsuario" Type="int" />
+  </EntityType>
+  <EntityType Name="tareas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Titulo" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Color" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+    <Property Name="FechaFin" Type="datetime" Nullable="false" />
+    <Property Name="IdPersona" Type="int" />
+    <Property Name="porcentaje" Type="int" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nick" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="clave" Type="varchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_persona">
+    <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
+    <End Role="tareas" Type="Self.tareas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="persona">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tareas">
+        <PropertyRef Name="IdPersona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_usuario">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="persona" Type="Self.persona" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="persona">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TareaModelStoreContainer">
+    <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tareas" EntityType="Self.tareas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_persona" Association="Self.FK_persona">
+      <End Role="persona" EntitySet="persona" />
+      <End Role="tareas" EntitySet="tareas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_usuario" Association="Self.FK_usuario">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="persona" EntitySet="persona" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

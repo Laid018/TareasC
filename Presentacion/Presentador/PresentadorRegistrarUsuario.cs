@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entidades;
+using Datos.Entidades;
 using Modelo;
 using Presentacion.Interfaces;
 
@@ -12,9 +12,9 @@ namespace Presentacion.Presentador
     public class PresentadorRegistrarUsuario
     {
         private readonly IPresentadorRegistrar _vista;
-        private EPersona persona;
-        private EUsuario usuario;
-        private Persona _persona = new Persona();
+        private Persona persona;
+        private Usuario usuario;
+        private Epersona _persona = new Epersona();
         public PresentadorRegistrarUsuario(IPresentadorRegistrar vista)
         {
             _vista = vista;
@@ -23,8 +23,8 @@ namespace Presentacion.Presentador
         {
             try
             {
-                if (persona == null) persona = new EPersona();
-                if (usuario == null) usuario = new EUsuario();
+                if (persona == null) persona = new Persona();
+                if (usuario == null) usuario = new Usuario();
                 // Sus datos de acceso
                 usuario.nick = _vista.nick;
                 usuario.clave = _vista.clave;

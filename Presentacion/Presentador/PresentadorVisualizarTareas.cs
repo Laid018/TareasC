@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Presentacion.Interfaces;
 using Modelo;
-using Entidades;
+using Datos.Entidades;
 using System.Data;
 
 namespace Presentacion.Presentador
@@ -13,47 +13,47 @@ namespace Presentacion.Presentador
     public class PresentadorVisualizarTareas
     {
         private readonly IPresentadorVisualizarTareas _vista;
-        private ETareas tareas;
-        private Tareas _tareas = new Tareas();
+        private Tareas tareas;
+        private ETareas _tareas = new ETareas();
 
         public PresentadorVisualizarTareas(IPresentadorVisualizarTareas vista)
         {
             _vista = vista;
         }
 
-        public DataTable CargarTabla()
+        public List<Tareas> CargarTabla()
         {
             return _tareas.MostrarTareas();
         }
 
-        public DataSet BuscarTareasCompletadas(string tarea, int id)
+        public List<Tareas> BuscarTareasCompletadas(string tarea, int id)
         {
             return _tareas.BuscarTareasCompletadas(tarea, id);
         }
 
-        public DataSet BuscarTareasPendientes(string tarea, int id)
+        public List<Tareas> BuscarTareasPendientes(string tarea, int id)
         {
             return _tareas.BuscarTareasPendientes(tarea, id);
         }
 
-        public DataSet BuscarTareasSinComenzar(string tarea, int id)
+        public List<Tareas> BuscarTareasSinComenzar(string tarea, int id)
         {
             return _tareas.BuscarTareasSinComenzar(tarea, id);
         }
 
-        public DataSet MostrarTareasCompletadas(int id)
+        public List<Tareas> MostrarTareasCompletadas(int id)
         {
-            return _tareas.VerTareasCompletadas(id);
+            return _tareas.MostrarTareasCompletadas(id);
         }
 
-        public DataSet MostrarTareasPendientes(int id)
+        public List<Tareas> MostrarTareasPendientes(int id)
         {
-            return _tareas.VerTareasPendientes(id);
+            return _tareas.MostrarTareasPendientes(id);
         }
 
-        public DataSet MostrarTareasSinComenzar(int id)
+        public List<Tareas> MostrarTareasSinComenzar(int id)
         {
-            return _tareas.VerTareasSinComenzar(id);
+            return _tareas.MostrarTareasSinComenzar(id);
         }
     }
 }

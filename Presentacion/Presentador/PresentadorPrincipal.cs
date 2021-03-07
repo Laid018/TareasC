@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Presentacion.Interfaces;
-using Entidades;
+using Datos.Entidades;
 using Modelo;
 using System.Data;
 
@@ -13,15 +13,15 @@ namespace Presentacion.Presentador
     public class PresentadorPrincipal
     {
         private readonly IPresentadorPrincipal _vista;
-        private ETareas tarea;
-        private Tareas _tarea = new Tareas();
+        private ETareas _tarea = new ETareas();
+        private Tareas tarea;
 
         public PresentadorPrincipal(IPresentadorPrincipal vista)
         {
             _vista = vista;
         }
 
-        public DataTable CargarTareas()
+        public List<Tareas> CargarTareas()
         {
             return _tarea.MostrarTareas();
         }
@@ -31,27 +31,32 @@ namespace Presentacion.Presentador
             _tarea.EliminarTarea(id);
         }
 
-        public List<ETareas> MostrarTareasProximasVencer(int id)
+        public List<Tareas> MostrarTareasProximasVencer(int id)
         {
-            return _tarea.VerTareasProximasVencer(id);            
+            return _tarea.MostrarTareasProximasVencer(id);            
         }
 
-        public DataSet MostrarTareasCompletadas(int id)
+        public bool TareasProximasComenzar(int id)
         {
-            return _tarea.VerTareasCompletadas(id);
+            return _tarea.TareasProximasComenzar(id);
         }
 
-        public DataSet MostrarTareasPendientes(int id)
+        public List<Tareas> MostrarTareasCompletadas(int id)
         {
-            return _tarea.VerTareasPendientes(id);
+            return _tarea.MostrarTareasCompletadas(id);
         }
 
-        public DataSet MostrarTareasSinComenzar(int id)
+        public List<Tareas> MostrarTareasPendientes(int id)
         {
-            return _tarea.VerTareasSinComenzar(id);
+            return _tarea.MostrarTareasPendientes(id);
         }
 
-        public DataSet BuscarTareas(string tarea)
+        public List<Tareas> MostrarTareasSinComenzar(int id)
+        {
+            return _tarea.MostrarTareasSinComenzar(id);
+        }
+
+        public List<Tareas> BuscarTareas(string tarea)
         {
             return _tarea.BuscarTareas(tarea); 
         }

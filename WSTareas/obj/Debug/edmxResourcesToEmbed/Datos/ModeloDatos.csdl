@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TareaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tareas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Color" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IdPersona" Type="Int32" />
+    <Property Name="porcentaje" Type="Int32" />
+    <NavigationProperty Name="persona" Relationship="TareaModel.FK_persona" FromRole="tareas" ToRole="persona" />
+  </EntityType>
+  <EntityContainer Name="TareaEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tareas" EntityType="Self.tareas" />
+    <EntitySet Name="persona" EntityType="TareaModel.persona" />
+    <EntitySet Name="usuario" EntityType="TareaModel.usuario" />
+    <AssociationSet Name="FK_persona" Association="TareaModel.FK_persona">
+      <End Role="persona" EntitySet="persona" />
+      <End Role="tareas" EntitySet="tareas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_usuario" Association="TareaModel.FK_usuario">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="persona" EntitySet="persona" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="persona">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="apellido" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="dni" Type="Int32" Nullable="false" />
+    <Property Name="telefono" Type="Int32" />
+    <Property Name="direccion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="IdUsuario" Type="Int32" />
+    <NavigationProperty Name="tareas" Relationship="TareaModel.FK_persona" FromRole="persona" ToRole="tareas" />
+    <NavigationProperty Name="usuario" Relationship="TareaModel.FK_usuario" FromRole="persona" ToRole="usuario" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nick" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="clave" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="persona" Relationship="TareaModel.FK_usuario" FromRole="usuario" ToRole="persona" />
+  </EntityType>
+  <Association Name="FK_persona">
+    <End Type="TareaModel.persona" Role="persona" Multiplicity="0..1" />
+    <End Type="TareaModel.tareas" Role="tareas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="persona">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tareas">
+        <PropertyRef Name="IdPersona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_usuario">
+    <End Type="TareaModel.usuario" Role="usuario" Multiplicity="0..1" />
+    <End Type="TareaModel.persona" Role="persona" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="persona">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -33,9 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -122,6 +129,7 @@
     <EmbeddedResource Include="Vistas\VisualizarTareas.resx">
       <DependentUpon>VisualizarTareas.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -153,16 +161,6 @@
     <None Include="Resource\off.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Entidades\Entidades.csproj">
-      <Project>{a6a8020c-46ef-4b59-8418-56e11713713c}</Project>
-      <Name>Entidades</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modelo\Modelo.csproj">
-      <Project>{4d7f30d9-fd06-49bc-9c4a-0e20401b5204}</Project>
-      <Name>Modelo</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\edit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +168,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Datos\Datos.csproj">
+      <Project>{cb3cd018-9b89-4818-88a3-64d75b713cfb}</Project>
+      <Name>Datos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{4d7f30d9-fd06-49bc-9c4a-0e20401b5204}</Project>
+      <Name>Modelo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

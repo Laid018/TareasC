@@ -24,19 +24,19 @@ namespace Presentacion.Vistas
 
         public void BuscarTareasCompletadas()
         {
-           dataGridView1.DataSource = _presenter.BuscarTareasCompletadas(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView;
+           dataGridView1.DataSource = _presenter.BuscarTareasCompletadas(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).ToList();
            dataGridView1.Refresh();
         }
 
         public void BuscarTareasPendientes()
         {
-           dataGridView1.DataSource = _presenter.BuscarTareasPendientes(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView;
+           dataGridView1.DataSource = _presenter.BuscarTareasPendientes(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).ToList();
            dataGridView1.Refresh();
         }
 
         public void BuscarTareasSinComenzar()
         {
-           dataGridView1.DataSource = _presenter.BuscarTareasSinComenzar(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView;
+           dataGridView1.DataSource = _presenter.BuscarTareasSinComenzar(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).ToList();
            dataGridView1.Refresh();
         }
 
@@ -76,17 +76,17 @@ namespace Presentacion.Vistas
             {
                 if (lblTitulo.Text == "Visualización tareas completadas")
                 {
-                   dataGridView1.DataSource = _presenter.BuscarTareasCompletadas(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView; 
+                   dataGridView1.DataSource = _presenter.BuscarTareasCompletadas(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).ToList(); 
                    dataGridView1.Refresh();
                 }
                 else if (lblTitulo.Text == "Visualización tareas pendientes")
                 {
-                   dataGridView1.DataSource = _presenter.BuscarTareasPendientes(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView; 
+                   dataGridView1.DataSource = _presenter.BuscarTareasPendientes(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).ToList(); 
                    dataGridView1.Refresh();
                 }
                 else if (lblTitulo.Text == "Visualización tareas sin comenzar")
                 {
-                   dataGridView1.DataSource = _presenter.BuscarTareasSinComenzar(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView; 
+                   dataGridView1.DataSource = _presenter.BuscarTareasSinComenzar(txtBusqueda.Text, Convert.ToInt32(txtIdUsuario.Text)).ToList(); 
                    dataGridView1.Refresh();
                 }
             }
@@ -94,17 +94,17 @@ namespace Presentacion.Vistas
             {
                 if (lblTitulo.Text == "Visualización tareas completadas")
                 {
-                   dataGridView1.DataSource = _presenter.MostrarTareasCompletadas(Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView; 
+                   dataGridView1.DataSource = _presenter.MostrarTareasCompletadas(Convert.ToInt32(txtIdUsuario.Text)).ToList(); 
                    dataGridView1.Refresh();
                 }
                 else if (lblTitulo.Text == "Visualización tareas pendientes")
                 {
-                   dataGridView1.DataSource = _presenter.MostrarTareasPendientes(Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView; 
+                   dataGridView1.DataSource = _presenter.MostrarTareasPendientes(Convert.ToInt32(txtIdUsuario.Text)).ToList(); 
                    dataGridView1.Refresh();
                 }
                 else if (lblTitulo.Text == "Visualización tareas sin comenzar")
                 {
-                   dataGridView1.DataSource = _presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtIdUsuario.Text)).Tables[0].DefaultView; 
+                   dataGridView1.DataSource = _presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtIdUsuario.Text)).ToList(); 
                    dataGridView1.Refresh();
                 }
             }

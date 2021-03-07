@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Modelo;
 using Presentacion.Interfaces;
-using Entidades;
+using Datos.Entidades;
 
 namespace Presentacion.Presentador
 {
     public class presentadorLogin
     {
         private IPresentadorLogin _vista;
-        private EUsuario usuario;
-        private Usuario _user = new Usuario();
+        private Eusuario _user = new Eusuario();
+        private Usuario usuario;
 
         public presentadorLogin(IPresentadorLogin vista)
         {
@@ -24,7 +24,7 @@ namespace Presentacion.Presentador
         {
             try
             {
-                if (usuario == null) usuario = new EUsuario();
+                if (usuario == null) usuario = new Usuario();
                 usuario.nick = _vista.usuario;
                 usuario.clave = _vista.clave;
                 return _user.Acceder(usuario);
@@ -37,7 +37,7 @@ namespace Presentacion.Presentador
 
         }
 
-        public EUsuario ObtenerUsuario()
+        public Usuario ObtenerUsuario()
         {
            return _user.GetUsuario(_vista.usuario, _vista.clave);
         }

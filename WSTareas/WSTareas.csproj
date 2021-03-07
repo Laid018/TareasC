@@ -32,6 +32,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MixedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,7 +44,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Datos">
+      <HintPath>..\Datos\bin\Debug\Datos.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -67,16 +80,61 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Datos\ModeloDatos.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModeloDatos.edmx</DependentUpon>
+      <LastGenOutput>ModeloDatos.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Datos\ModeloDatos.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModeloDatos.edmx</DependentUpon>
+      <LastGenOutput>ModeloDatos.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="WSTareas.asmx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Datos\ModeloDatos.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloDatos.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\ModeloDatos.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloDatos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\ModeloDatos.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModeloDatos.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\persona.cs">
+      <DependentUpon>ModeloDatos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\tareas.cs">
+      <DependentUpon>ModeloDatos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\usuario.cs">
+      <DependentUpon>ModeloDatos.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelo\Persona.cs" />
+    <Compile Include="Modelo\Tareas.cs" />
+    <Compile Include="Modelo\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WSTareas.asmx.cs">
       <DependentUpon>WSTareas.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EntityDeploy Include="Datos\ModeloDatos.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModeloDatos.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Datos\ModeloDatos.edmx.diagram">
+      <DependentUpon>ModeloDatos.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -86,9 +144,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Entidades\Entidades.csproj">
-      <Project>{A6A8020C-46EF-4B59-8418-56E11713713C}</Project>
-      <Name>Entidades</Name>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{4d7f30d9-fd06-49bc-9c4a-0e20401b5204}</Project>
+      <Name>Modelo</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

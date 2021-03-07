@@ -38,11 +38,6 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.tareasBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tareaDSBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tareaDS = new Presentacion.TareaDS();
-            this.txtBusqueda = new System.Windows.Forms.TextBox();
-            this.tareasTableAdapter = new Presentacion.TareaDSTableAdapters.tareasTableAdapter();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,6 +45,11 @@
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.porcentaje = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tareasBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tareaDSBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tareaDS = new Presentacion.TareaDS();
+            this.txtBusqueda = new System.Windows.Forms.TextBox();
+            this.tareasTableAdapter = new Presentacion.TareaDSTableAdapters.tareasTableAdapter();
             this.panelContenedor.SuspendLayout();
             this.panelCabecera.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -165,37 +165,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(642, 307);
             this.dataGridView1.TabIndex = 0;
             // 
-            // tareasBindingSource
-            // 
-            this.tareasBindingSource.DataMember = "tareas";
-            this.tareasBindingSource.DataSource = this.tareaDSBindingSource;
-            // 
-            // tareaDSBindingSource
-            // 
-            this.tareaDSBindingSource.DataSource = this.tareaDS;
-            this.tareaDSBindingSource.Position = 0;
-            // 
-            // tareaDS
-            // 
-            this.tareaDS.DataSetName = "TareaDS";
-            this.tareaDS.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // txtBusqueda
-            // 
-            this.txtBusqueda.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtBusqueda.Location = new System.Drawing.Point(3, 3);
-            this.txtBusqueda.Name = "txtBusqueda";
-            this.txtBusqueda.Size = new System.Drawing.Size(642, 20);
-            this.txtBusqueda.TabIndex = 1;
-            this.txtBusqueda.Text = "REALIZAR BUSQUEDA";
-            this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
-            this.txtBusqueda.Enter += new System.EventHandler(this.txtBusqueda_Enter);
-            this.txtBusqueda.Leave += new System.EventHandler(this.txtBusqueda_Leave);
-            // 
-            // tareasTableAdapter
-            // 
-            this.tareasTableAdapter.ClearBeforeFill = true;
-            // 
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
@@ -253,6 +222,37 @@
             this.porcentaje.HeaderText = "Porcentaje";
             this.porcentaje.Name = "porcentaje";
             this.porcentaje.ReadOnly = true;
+            // 
+            // tareasBindingSource
+            // 
+            this.tareasBindingSource.DataMember = "tareas";
+            this.tareasBindingSource.DataSource = this.tareaDSBindingSource;
+            // 
+            // tareaDSBindingSource
+            // 
+            this.tareaDSBindingSource.DataSource = this.tareaDS;
+            this.tareaDSBindingSource.Position = 0;
+            // 
+            // tareaDS
+            // 
+            this.tareaDS.DataSetName = "TareaDS";
+            this.tareaDS.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // txtBusqueda
+            // 
+            this.txtBusqueda.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtBusqueda.Location = new System.Drawing.Point(3, 3);
+            this.txtBusqueda.Name = "txtBusqueda";
+            this.txtBusqueda.Size = new System.Drawing.Size(642, 20);
+            this.txtBusqueda.TabIndex = 1;
+            this.txtBusqueda.Text = "REALIZAR BUSQUEDA";
+            this.txtBusqueda.TextChanged += new System.EventHandler(this.txtBusqueda_TextChanged);
+            this.txtBusqueda.Enter += new System.EventHandler(this.txtBusqueda_Enter);
+            this.txtBusqueda.Leave += new System.EventHandler(this.txtBusqueda_Leave);
+            // 
+            // tareasTableAdapter
+            // 
+            this.tareasTableAdapter.ClearBeforeFill = true;
             // 
             // VisualizarTareas
             // 

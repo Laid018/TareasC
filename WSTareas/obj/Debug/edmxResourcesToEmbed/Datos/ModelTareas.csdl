@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TareaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="persona">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="apellido" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="dni" Type="Int32" Nullable="false" />
+    <Property Name="telefono" Type="Int32" />
+    <Property Name="direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IdUsuario" Type="Int32" />
+    <NavigationProperty Name="tareas" Relationship="Self.FK_persona" FromRole="persona" ToRole="tareas" />
+    <NavigationProperty Name="usuario" Relationship="Self.FK_usuario" FromRole="persona" ToRole="usuario" />
+  </EntityType>
+  <EntityType Name="tareas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Color" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IdPersona" Type="Int32" />
+    <Property Name="porcentaje" Type="Int32" />
+    <NavigationProperty Name="persona" Relationship="Self.FK_persona" FromRole="tareas" ToRole="persona" />
+  </EntityType>
+  <EntityType Name="usuario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nick" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="clave" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="persona" Relationship="Self.FK_usuario" FromRole="usuario" ToRole="persona" />
+  </EntityType>
+  <Association Name="FK_persona">
+    <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
+    <End Role="tareas" Type="Self.tareas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="persona">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tareas">
+        <PropertyRef Name="IdPersona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_usuario">
+    <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+    <End Role="persona" Type="Self.persona" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuario">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="persona">
+        <PropertyRef Name="IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TareaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="persona" EntityType="Self.persona" />
+    <EntitySet Name="tareas" EntityType="Self.tareas" />
+    <EntitySet Name="usuario" EntityType="Self.usuario" />
+    <AssociationSet Name="FK_persona" Association="Self.FK_persona">
+      <End Role="persona" EntitySet="persona" />
+      <End Role="tareas" EntitySet="tareas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_usuario" Association="Self.FK_usuario">
+      <End Role="usuario" EntitySet="usuario" />
+      <End Role="persona" EntitySet="persona" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

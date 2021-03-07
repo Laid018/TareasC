@@ -1,0 +1,4 @@
+C:\Users\pc\source\repos\Tareas\Datos\obj\Debug\Datoss.csprojAssemblyReference.cache
+C:\Users\pc\source\repos\Tareas\Datos\obj\Debug\Datoss.csproj.CoreCompileInputs.cache
+C:\Users\pc\source\repos\Tareas\Datos\obj\Debug\Datos.dll
+C:\Users\pc\source\repos\Tareas\Datos\obj\Debug\Datos.pdb

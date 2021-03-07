@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Modelo;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Entity.SqlServer;
 using System.Linq;
-using System.Web;
 using System.Web.Services;
+using WSTareas.Datos;
 
 namespace WSTareas
 {
@@ -19,185 +19,393 @@ namespace WSTareas
     // [System.Web.Script.Services.ScriptService]
     public class WSTareas : System.Web.Services.WebService
     {
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-QTDUMVH\\SQLEXPRESS;Initial Catalog=Tarea;Integrated Security=True");
 
+        //***************************** METODOS WEB SERVICE ********************************
+        // MOSTRAR TAREAS
         [WebMethod]
-        public DataSet ListarTareas()
+        public List<Tareas> MostrarTareas()
         {
-            DataSet ds = new DataSet(); 
-            con.Open();
-            using (var comand = new SqlCommand())
+            using (var db = new TareaEntities1())
             {
-               comand.Connection = con;
-               comand.CommandText = "select * from tareas";
-               comand.CommandType = CommandType.Text;
-               SqlDataAdapter da = new SqlDataAdapter(comand); 
-               da.Fill(ds); 
-               con.Close();
-               return ds;
+                var list = db.tareas.Select(t => new Tareas {
+                    Id = t.Id,
+                    Titulo = t.Titulo,
+                    Descripcion = t.Descripcion,
+                    Color = t.Color,
+                    FechaInicio = t.FechaInicio,
+                    FechaFin = t.FechaFin,
+                    IdPersona = t.IdPersona,
+                    porcentaje = t.porcentaje
+                }).ToList();
+
+                return list;
             }
         }
 
-        [WebMethod]
-        public DataSet BuscarTareas(string titulo)
+        // OBTENER TAREA POR SU ID
+        public Tareas ObtenerTareaById(int id)
         {
-            DataSet ds = new DataSet(); 
-            con.Open();
-            using (var comand = new SqlCommand())
+            using (var db = new TareaEntities1())
             {
-                comand.Connection = con;
-                comand.CommandText = "Select * from tareas where Titulo LIKE @titulo +'%'";
-                /* comand.CommandText = "Select * from Tareas where Titulo LIKE '"+ titulo.Trim() +"%'"; */
-                comand.CommandType = CommandType.Text;
-                comand.Parameters.AddWithValue("@titulo", titulo.Trim());
-               SqlDataAdapter da = new SqlDataAdapter(comand); 
-               da.Fill(ds); 
-               con.Close();
-               return ds;
-            }
-        }
-
-        [WebMethod]
-        public DataSet BuscarTareasCompletadas(string titulo, int id)
-        {
-            DataSet ds = new DataSet(); 
-            con.Open();
-            using (var comand = new SqlCommand())
-            {
-                comand.Connection = con;
-                comand.CommandText = "Select * from tareas where Titulo LIKE @titulo +'%' and porcentaje=100 and IdPersona=@id";
-                /* comand.CommandText = "Select * from Tareas where Titulo LIKE '"+ titulo.Trim() +"%'"; */
-                comand.CommandType = CommandType.Text;
-                comand.Parameters.AddWithValue("@titulo", titulo.Trim());
-                comand.Parameters.AddWithValue("@id", id);
-               SqlDataAdapter da = new SqlDataAdapter(comand); 
-               da.Fill(ds); 
-               con.Close();
-               return ds;
-            }
-        }
-
-        [WebMethod]
-        public DataSet BuscarTareasPendientes(string titulo, int id)
-        {
-            DataSet ds = new DataSet(); 
-            con.Open();
-            using (var comand = new SqlCommand())
-            {
-                comand.Connection = con;
-                comand.CommandText = "Select * from tareas where Titulo LIKE @titulo +'%' and porcentaje < 100 and IdPersona=@id";
-                /* comand.CommandText = "Select * from Tareas where Titulo LIKE '"+ titulo.Trim() +"%'"; */
-                comand.CommandType = CommandType.Text;
-                comand.Parameters.AddWithValue("@titulo", titulo.Trim());
-                comand.Parameters.AddWithValue("@id", id);
-               SqlDataAdapter da = new SqlDataAdapter(comand); 
-               da.Fill(ds); 
-               con.Close();
-               return ds;
-            }
-        }
-        
-        [WebMethod]
-        public DataSet BuscarTareasSinComenzar(string titulo, int id)
-        {
-            DataSet ds = new DataSet(); 
-            con.Open();
-            using (var comand = new SqlCommand())
-            {
-                comand.Connection = con;
-                comand.CommandText = "Select * from tareas where Titulo LIKE @titulo +'%' and porcentaje=0 and IdPersona=@id";
-                /* comand.CommandText = "Select * from Tareas where Titulo LIKE '"+ titulo.Trim() +"%'"; */
-                comand.CommandType = CommandType.Text;
-                comand.Parameters.AddWithValue("@titulo", titulo.Trim());
-                comand.Parameters.AddWithValue("@id", id);
-               SqlDataAdapter da = new SqlDataAdapter(comand); 
-               da.Fill(ds); 
-               con.Close();
-               return ds;
-            }
-        }
-
-        [WebMethod]
-        public DataSet MostrarTareasCompletadas(int id)
-        {
-            DataSet ds = new DataSet();
-            con.Open();
-            using (var comand = new SqlCommand())
-            {
-                comand.Connection = con;
-                comand.CommandText = "select * from Tareas where porcentaje=100 and IdPersona=@id";
-                comand.CommandType = CommandType.Text;
-                comand.Parameters.AddWithValue("@id", id);    
-                SqlDataAdapter da = new SqlDataAdapter(comand);
-                da.Fill(ds);
-                con.Close();
-                if ((Convert.ToInt32(ds.Tables[0].Rows[0]["porcentaje"])) == 100)
+                var tareas = db.tareas.Where(t => t.Id == id)
+                                    .Select(t => new Tareas
+                                    {
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    });
+                if (tareas.Count() > 0)
                 {
-                   return ds;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        [WebMethod]
-        public DataSet MostrarTareasPendientes(int id)
-        {
-            DataSet ds = new DataSet();
-            con.Open();
-            using (var comand = new SqlCommand())
-            {
-               comand.Connection = con;
-               comand.CommandText = "select * from Tareas where porcentaje < 100 and IdPersona=@id";
-               comand.CommandType = CommandType.Text;
-               comand.Parameters.AddWithValue("@id", id);    
-               SqlDataAdapter da = new SqlDataAdapter(comand);
-               da.Fill(ds);
-               con.Close();
-                if ((Convert.ToInt32(ds.Tables[0].Rows[0]["porcentaje"])) > 100)
-               {
-                   return null;
-               }
-                else
-                {
-                   return ds;
-                }
-            }
-        }
-
-        [WebMethod]
-        public DataSet MostrarTareasSinComenzar(int id)
-        {
-           DataSet ds = new DataSet();
-            con.Open();
-            using (var comand = new SqlCommand())
-            {
-               comand.Connection = con;
-               comand.CommandText = "select * from Tareas where porcentaje=0 and IdPersona=@id";
-               comand.CommandType = CommandType.Text;
-               comand.Parameters.AddWithValue("@id", id);     
-               SqlDataAdapter da = new SqlDataAdapter(comand);
-               da.Fill(ds);
-               con.Close();
-               try
-               {
-                   if ((Convert.ToInt32(ds.Tables[0].Rows[0]["porcentaje"])) > 0)
-                   {
-                       return null;
-                   }
-                    else
+                    foreach (var tarea in tareas)
                     {
-                        return ds;
+                        Tareas t = new Tareas();
+                        t.Id = tarea.Id;
+                        t.Titulo = tarea.Titulo;
+                        t.Descripcion = tarea.Descripcion;
+                        t.Color = tarea.Color;
+                        t.FechaInicio = tarea.FechaInicio;
+                        t.FechaFin = tarea.FechaFin;
+                        t.IdPersona = tarea.IdPersona;
+                        t.porcentaje = tarea.porcentaje;
+
+                        return t;
                     }
-               }
-               catch (Exception e)
-               {
-                   Console.WriteLine("No hay tareas sin comenzar"+e);
-                   return null;
-               }
+                }
+                else { return null; }
             }
+            return null;
+        }
+
+        // INSERTAR TAREA
+        public void InsertarTarea(Tareas oTareas)
+        {
+            using (var db = new TareaEntities1())
+            {
+                tareas tarea = new tareas();
+                //tarea.Id = oTareas.Id;
+                tarea.Titulo = oTareas.Titulo;
+                tarea.Descripcion = oTareas.Descripcion;
+                tarea.Color = oTareas.Color;
+                tarea.FechaInicio = oTareas.FechaInicio;
+                tarea.FechaFin = oTareas.FechaFin;
+                tarea.IdPersona = oTareas.IdPersona;
+                tarea.porcentaje = oTareas.porcentaje;
+                db.tareas.Add(tarea);
+                db.SaveChanges();
+            }
+        }
+
+        // ACTUALIZAR TAREA
+        public void ActualizarTarea(Tareas oTareas)
+        {
+            using (var db = new TareaEntities1())
+            {
+                var tareas = (tareas)db.tareas.Where(t => t.Id == oTareas.Id).ToList().First();
+                //tareas.Id = oTareas.Id;
+                tareas.Titulo = oTareas.Titulo;
+                tareas.Descripcion = oTareas.Descripcion;
+                tareas.Color = oTareas.Color;
+                tareas.FechaInicio = oTareas.FechaInicio;
+                tareas.FechaFin = oTareas.FechaFin;
+                tareas.IdPersona = oTareas.IdPersona;
+                tareas.porcentaje = oTareas.porcentaje;
+                db.Entry(tareas).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        // ELIMINAR TAREA
+        public void EliminarTarea(int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                var tarea = db.tareas.Where(t => t.Id == id).First();
+                db.tareas.Remove(tarea);
+                db.SaveChanges();
+            }
+        }
+
+        // MOSTRAR TAREAS PROXIMAS A VENCER
+        public List<Tareas> MostrarTareasProximasVencer(int id)
+        {
+            //List<Tareas> _list = new List<Tareas>();
+            //con ="select * , DATEDiFF(day,FechaFin, GETDATE()) as fechaVencimiento from Tareas where IdPersona = @id";
+            DateTime now = DateTime.UtcNow;
+            using (var db = new TareaEntities1())
+            {
+
+                var tareas = db.tareas.Where(t => SqlFunctions.DateDiff("DAY", t.FechaFin, now) < 5
+                                            && SqlFunctions.DateDiff("DAY", t.FechaFin, now) > 0
+                                            && t.IdPersona == id)
+                                      .Select(t => new Tareas
+                                      {
+                                          Id = t.Id,
+                                          Titulo = t.Titulo,
+                                          Descripcion = t.Descripcion,
+                                          Color = t.Color,
+                                          FechaInicio = t.FechaInicio,
+                                          FechaFin = t.FechaFin,
+                                          IdPersona = t.IdPersona,
+                                          porcentaje = t.porcentaje
+                                      }).ToList();
+
+                if (tareas.Count() > 0)
+                    return tareas;
+                else
+                    return null;
+            }
+        }
+
+        // Tareas que esten a 15 min de comenzar
+        public bool TareasProximasComenzar(int id)
+        {
+            //var now = DateTime.UtcNow;
+            var now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            using (var db = new TareaEntities1())
+            {
+                //var query = "select datediff(MI,GETDATE(),dbo.tareas.FechaInicio) as minuto from dbo.tareas" +
+                //     "where datediff(MI,GETDATE(), dbo.tareas.FechaInicio) > 0 AND datediff(MI,GETDATE(), dbo.tareas.FechaInicio) < 4;";
+               
+                //var list = db.tareas.SqlQuery("select datediff(MI, GETDATE(), tareas.FechaInicio) as minuto from tareas" +
+                //    "where datediff(MI,GETDATE(), tareas.FechaInicio) > 0 AND datediff(MI,GETDATE(), tareas.FechaInicio) < 4 and tareas.IdPersona ="+id+";").First();
+
+                var result = db.tareas.Where(t => SqlFunctions.DateDiff("MI", now, t.FechaInicio) > 0 
+                                                && SqlFunctions.DateDiff("MI", now, t.FechaInicio) < 4 
+                                                && t.IdPersona == id).ToList();
+
+                if (result.Count() > 0)
+                    return true;
+                else
+                    return false;
+                
+            }
+        }
+
+        // BUSCAR TAREA
+        [WebMethod]
+        public List<Tareas> BuscarTareas(string titulo)
+        {
+            using (var db = new TareaEntities1())
+            {
+                var list = db.tareas.Where(t => t.Titulo.Contains(titulo))
+                                    .Select(t => new Tareas {
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+                return list;
+            }
+        }
+
+        // BUSCAR TAREA COMPLETADAS
+        [WebMethod]
+        public List<Tareas> BuscarTareasCompletadas(string titulo, int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                var list = db.tareas.Where(t => t.Titulo.Contains(titulo) && t.porcentaje == 100 
+                                            && t.IdPersona == id)
+                                    .Select(t=> new Tareas {
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+
+                   return list;
+            }
+        }
+        // MOSTRAR TAREAS COMPLETADAS
+        [WebMethod]
+        public List<Tareas> MostrarTareasCompletadas(int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                var list = db.tareas.Where(t => t.porcentaje == 100 && t.IdPersona == id)
+                                    .Select(t=> new Tareas { 
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+                return list;
+            }
+        }
+        // BUSCAR TAREAS PENDIENTES
+        [WebMethod]
+        public List<Tareas> BuscarTareasPendientes(string titulo, int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                List<Tareas> listaTareas = new List<Tareas>();
+                var list = db.tareas.Where(t => t.Titulo.Contains(titulo) && t.porcentaje < 100 
+                                            && t.IdPersona == id)
+                                    .Select(t=> new Tareas { 
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+                return list;
+            }
+        }
+        // MOSTRAR TAREAS PENDIENTES
+        [WebMethod]
+        public List<Tareas> MostrarTareasPendientes(int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                var list = db.tareas.Where(t => t.porcentaje < 100 && t.IdPersona == id)
+                                    .Select(t=> new Tareas { 
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+                return list;
+            }
+        }
+        // BUSCAR TAREAS SIN COMENZAR
+        [WebMethod]
+        public List<Tareas> BuscarTareasSinComenzar(string titulo, int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                List<Tareas> listaTareas = new List<Tareas>();
+                var list = db.tareas.Where(t => t.Titulo.Contains(titulo) && t.porcentaje == 0 
+                                            && t.IdPersona == id)
+                                    .Select(t=> new Tareas { 
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color  = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+                return list;
+            }
+        }
+        // MOSTRAR TAREAS SIN COMENZAR
+        [WebMethod]
+        public List<Tareas> MostrarTareasSinComenzar(int id)
+        {
+            using (var db = new TareaEntities1())
+            {
+                List<Tareas> listaTareas = new List<Tareas>();
+                var list = db.tareas.Where(t => t.porcentaje == 0 && t.IdPersona == id)
+                                    .Select(t=> new Tareas { 
+                                        Id = t.Id,
+                                        Titulo = t.Titulo,
+                                        Descripcion = t.Descripcion,
+                                        Color = t.Color,
+                                        FechaInicio = t.FechaInicio,
+                                        FechaFin = t.FechaFin,
+                                        IdPersona = t.IdPersona,
+                                        porcentaje = t.porcentaje
+                                    }).ToList();
+                return list;
+            }
+        }
+
+        // REGISTRAR USUARIO
+        public void RegistrarUsuario(Persona p, Usuario u)
+        {
+            using (var db = new TareaEntities1())
+            {
+                usuario usu = new usuario();
+                usu.nick = u.nick;
+                usu.clave = u.clave;
+                db.usuario.Add(usu);
+                db.SaveChanges();
+
+                // Obtener id del usuario ingresado
+                var id = ObtenerUltimoId();
+                //var tareas = db.tareas.SqlQuery("SELECT MAX(Id) as Id FROM usuario").ToList().First();
+                //int IdUsuario = tareas.Id;
+
+                persona person = new persona();
+                person.nombre = p.nombre;
+                person.apellido = p.apellido;
+                person.direccion = p.direccion;
+                person.dni = p.dni;
+                person.telefono = p.telefono;
+                person.IdUsuario = id;
+                db.persona.Add(person);
+                db.SaveChanges();
+            }
+        }
+
+        // ACCEDER AL SISTEMA
+        public bool Acceder(Usuario usuario)
+        {
+            try
+            {
+                using (var db = new TareaEntities1())
+                {
+                    var tarea = db.usuario.Where(u => u.nick == usuario.nick && u.clave == usuario.clave).FirstOrDefault();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Hubo un error" + ex);
+                return false;
+            }
+        }
+
+        public Usuario GetUsuario(string nick, string clave)
+        {
+            using (var db = new TareaEntities1())
+            {
+                Usuario usu = new Usuario();
+                var usuario = db.usuario.Where(u => u.nick == nick && u.clave == clave).ToList<usuario>().First();
+                usu.Id = usuario.Id;
+                usu.nick = usuario.nick;
+                usu.clave = usuario.clave;
+                return usu;
+            }
+        }
+
+        public int ObtenerUltimoId()
+        {
+            using (var db = new TareaEntities1())
+            {
+                var tareas = db.tareas.SqlQuery("SELECT MAX(Id) as Id FROM usuario").ToList();
+                foreach (var tarea in tareas)
+                {
+                    int Id = tarea.Id;
+                    return Id;
+                }
+            }
+            return 0;
         }
     }
 }

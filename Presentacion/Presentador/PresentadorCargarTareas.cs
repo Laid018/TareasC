@@ -3,55 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Modelo;
-using Entidades;
 using Presentacion.Interfaces;
+using Modelo;
+using Datos.Entidades;
 
 namespace Presentacion.Presentador
 {
     public class PresentadorCargarTareas
     {
         private readonly IPresentadorCargarTareas _vista;
-        private ETareas tarea;
-        private Tareas _tarea = new Tareas();
+        private Tareas tarea;
+        private ETareas _tareas = new ETareas();
         public PresentadorCargarTareas(IPresentadorCargarTareas vista)
         {
             _vista = vista;
         }
 
-        public ETareas ObtenerId(int id)
+        public Tareas ObtenerId(int id)
         {
-            return _tarea.ObtenerTareaById(id);            
+            return _tareas.ObtenerTareaById(id);
         }
 
         public void RegistrarTarea()
         {
-            if (tarea == null) tarea = new ETareas();
-            tarea.titulo = _vista.titulo;
-            tarea.descripcion = _vista.descripcion;
-            tarea.color = _vista.color;
-            tarea.fechaInicio = _vista.fechaInicio;
-            tarea.fechaFin = _vista.fechaFin;
+            if (tarea == null) tarea = new Tareas();
+            tarea.Titulo = _vista.titulo;
+            tarea.Descripcion = _vista.descripcion;
+            tarea.Color = _vista.color;
+            tarea.FechaInicio = _vista.fechaInicio;
+            tarea.FechaFin = _vista.fechaFin;
             tarea.porcentaje = _vista.porcentaje;
-            tarea.idPersona = _vista.id;
+            tarea.IdPersona = _vista.id;
 
-            _tarea.InsertarTarea(tarea);
+            _tareas.InsertarTarea(tarea);
         }
 
-        public void ActualizarTarea(ETareas tarea)
+        public void ActualizarTarea(Tareas tarea)
         {
             if (tarea != null)
             {
-                tarea.id = _vista.idTarea;
-                tarea.titulo = _vista.titulo;
-                tarea.descripcion = _vista.descripcion;
-                tarea.color = _vista.color;
-                tarea.fechaInicio = _vista.fechaInicio;
-                tarea.fechaFin = _vista.fechaFin;
+                tarea.Id = _vista.idTarea;
+                tarea.Titulo = _vista.titulo;
+                tarea.Descripcion = _vista.descripcion;
+                tarea.Color = _vista.color;
+                tarea.FechaInicio = _vista.fechaInicio;
+                tarea.FechaFin = _vista.fechaFin;
                 tarea.porcentaje = _vista.porcentaje;
-                tarea.idPersona = _vista.id;
+                tarea.IdPersona = _vista.id;
 
-                _tarea.ActualizarTarea(tarea);
+                _tareas.ActualizarTarea(tarea);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using Entidades;
+﻿using Datos.Entidades;
+using Modelo;
 using Presentacion.Interfaces;
 using Presentacion.Presentador;
 using System;
@@ -54,10 +55,10 @@ namespace Presentacion.Vistas
         {
             if (_presentador.Acceder())
             {
-                EUsuario usu = _presentador.ObtenerUsuario();
+                Usuario usu = _presentador.ObtenerUsuario();
                 Principal vp = new Principal();
                 vp.lblUsuario.Text = usuario.ToUpper();
-                vp.txtId.Text = usu.id.ToString();
+                vp.txtId.Text = usu.Id.ToString();
                 vp.Show();
                 vp.FormClosed += Logout;
                 this.Hide();

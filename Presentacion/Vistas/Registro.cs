@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Presentacion.Presentador;
 using Presentacion.Interfaces;
-using Entidades;
+using Datos.Entidades;
 
 namespace Presentacion.Vistas
 {

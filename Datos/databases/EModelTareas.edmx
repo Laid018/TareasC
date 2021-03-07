@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TareaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="apellido" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="dni" Type="int" Nullable="false" />
+          <Property Name="telefono" Type="int" />
+          <Property Name="direccion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+        </EntityType>
+        <EntityType Name="tareas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Titulo" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="FechaFin" Type="datetime" Nullable="false" />
+          <Property Name="IdPersona" Type="int" />
+          <Property Name="porcentaje" Type="int" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nick" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="clave" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_persona">
+          <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
+          <End Role="tareas" Type="Self.tareas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tareas">
+              <PropertyRef Name="IdPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+          <End Role="persona" Type="Self.persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="persona">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TareaModelStoreContainer">
+          <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tareas" EntityType="Self.tareas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_persona" Association="Self.FK_persona">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="tareas" EntitySet="tareas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario" Association="Self.FK_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="persona" EntitySet="persona" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TareaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dni" Type="Int32" Nullable="false" />
+          <Property Name="telefono" Type="Int32" />
+          <Property Name="direccion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <NavigationProperty Name="tareas" Relationship="Self.FK_persona" FromRole="persona" ToRole="tareas" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario" FromRole="persona" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="tareas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Titulo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdPersona" Type="Int32" />
+          <Property Name="porcentaje" Type="Int32" />
+          <NavigationProperty Name="persona" Relationship="Self.FK_persona" FromRole="tareas" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nick" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="clave" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="persona" Relationship="Self.FK_usuario" FromRole="usuario" ToRole="persona" />
+        </EntityType>
+        <Association Name="FK_persona">
+          <End Role="persona" Type="Self.persona" Multiplicity="0..1" />
+          <End Role="tareas" Type="Self.tareas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tareas">
+              <PropertyRef Name="IdPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="0..1" />
+          <End Role="persona" Type="Self.persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="persona">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TareaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="persona" EntityType="Self.persona" />
+          <EntitySet Name="tareas" EntityType="Self.tareas" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_persona" Association="Self.FK_persona">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="tareas" EntitySet="tareas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario" Association="Self.FK_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="persona" EntitySet="persona" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TareaModelStoreContainer" CdmEntityContainer="TareaEntities">
+          <EntitySetMapping Name="persona">
+            <EntityTypeMapping TypeName="TareaModel.persona">
+              <MappingFragment StoreEntitySet="persona">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tareas">
+            <EntityTypeMapping TypeName="TareaModel.tareas">
+              <MappingFragment StoreEntitySet="tareas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="IdPersona" ColumnName="IdPersona" />
+                <ScalarProperty Name="porcentaje" ColumnName="porcentaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="TareaModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="nick" ColumnName="nick" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Presentacion.Interfaces;
 using Presentacion.Presentador;
+using Modelo;
 
 namespace Presentacion
 {
@@ -24,7 +25,7 @@ namespace Presentacion
 
         #region Metodo de la interfaz
         // Metodo de la interfaz
-        public DataTable CargarTareas()
+        public List<Tareas> CargarTareas()
         {
             return _presenter.CargarTareas();
         }
@@ -49,15 +50,15 @@ namespace Presentacion
             if (_presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)) == null)
                 BarCompletada.Value = 0;
             else
-                BarCompletada.Value = _presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)).Tables[0].Rows.Count;
+                BarCompletada.Value = _presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)).ToList().Count;
             if (_presenter.MostrarTareasPendientes(Convert.ToInt32(txtId.Text)) == null)
                 BarPendiente.Value = 0;
             else
-                BarPendiente.Value = _presenter.MostrarTareasPendientes(Convert.ToInt32(txtId.Text)).Tables[0].Rows.Count;
+                BarPendiente.Value = _presenter.MostrarTareasPendientes(Convert.ToInt32(txtId.Text)).ToList().Count;
             if (_presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtId.Text)) == null)
                 BarSinComenzar.Value = 0;
             else
-                BarSinComenzar.Value = _presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtId.Text)).Tables[0].Rows.Count;
+                BarSinComenzar.Value = _presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtId.Text)).ToList().Count;
         }
 
         private void btnCargarTareas_Click(object sender, EventArgs e)
@@ -72,7 +73,7 @@ namespace Presentacion
         {
             if (txtBusqueda.Text != "REALIZAR BUSQUEDA" && txtBusqueda.Text != "")
             {
-                dataGridView1.DataSource = _presenter.BuscarTareas(txtBusqueda.Text).Tables[0].DefaultView;
+                dataGridView1.DataSource = _presenter.BuscarTareas(txtBusqueda.Text).ToList();
                 dataGridView1.Refresh();
             }
             else
@@ -150,13 +151,13 @@ namespace Presentacion
 
         public void TareasAVencer()
         {
-            if (_presenter.MostrarTareasProximasVencer(Convert.ToInt32(txtId.Text)).Count == 0)
+            if (_presenter.MostrarTareasProximasVencer(Convert.ToInt32(txtId.Text)) == null)
             {
-                 dataGridView2.DataSource = null;   
+                 dataGridView3.DataSource = null;   
             }
             else
             {
-                dataGridView2.DataSource = _presenter.MostrarTareasProximasVencer(Convert.ToInt32(txtId.Text));    
+                dataGridView3.DataSource = _presenter.MostrarTareasProximasVencer(Convert.ToInt32(txtId.Text)).ToList();    
             }
         }
 
@@ -167,7 +168,7 @@ namespace Presentacion
             else
             {
                 VisualizarTareas vista = new VisualizarTareas();
-                vista.dataGridView1.DataSource = _presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)).Tables[0].DefaultView;
+                vista.dataGridView1.DataSource = _presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)).ToList();
                 vista.lblTitulo.Text = "Visualización tareas completadas";
                 vista.txtIdUsuario.Text = txtId.Text;
                 vista.Show();
@@ -181,7 +182,7 @@ namespace Presentacion
             else
             {
                 VisualizarTareas vista = new VisualizarTareas();
-                vista.dataGridView1.DataSource = _presenter.MostrarTareasPendientes(Convert.ToInt32(txtId.Text)).Tables[0].DefaultView;
+                vista.dataGridView1.DataSource = _presenter.MostrarTareasPendientes(Convert.ToInt32(txtId.Text)).ToList();
                 vista.lblTitulo.Text = "Visualización tareas pendientes";
                 vista.txtIdUsuario.Text = txtId.Text;
                 vista.Show();
@@ -195,13 +196,14 @@ namespace Presentacion
             else
             {
                 VisualizarTareas vista = new VisualizarTareas();
-                vista.dataGridView1.DataSource = _presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtId.Text)).Tables[0].DefaultView;
+                vista.dataGridView1.DataSource = _presenter.MostrarTareasSinComenzar(Convert.ToInt32(txtId.Text)).ToList();
                 vista.lblTitulo.Text = "Visualización tareas sin comenzar";
                 vista.txtIdUsuario.Text = txtId.Text;
                 vista.Show();
             }
         }
 
+        // CAMPO DE TEXTO PARA LA BUSQUEDA DE TAREAS
         private void txtBusqueda_Enter(object sender, EventArgs e)
         {
             if (txtBusqueda.Text == "REALIZAR BUSQUEDA")
@@ -215,6 +217,52 @@ namespace Presentacion
             if (txtBusqueda.Text == "")
             {
                 txtBusqueda.Text = "REALIZAR BUSQUEDA";
+            }
+        }
+
+        // MOSTRAR NOTIFICACION
+        private void notifyIcon1_Click(object sender, MouseEventArgs e)
+        {
+
+            if (WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+            }
+            else if (WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                if (_presenter.TareasProximasComenzar(Convert.ToInt32(txtId.Text)))
+                {
+                    // Nombre al pasar cursor sobre el icono
+                    notifyIcon1.Text = "Ver tarea próxima a comenzar";
+                    // Titulo de la notificación
+                    notifyIcon1.BalloonTipText = "Tiene una tarea proxima por comenzar";
+                    // Texto dentro de la notificación
+                    notifyIcon1.BalloonTipText = "Haz click para visualizar las tareas que contienes.";
+                    // Icono que sale en la notificación
+                    notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
+
+                    // Hacemos visible la notificación
+                    notifyIcon1.Visible = true;
+                    // Tiempo de visualización de la notificación
+                    notifyIcon1.ShowBalloonTip(3000);
+                }
+            }
+        }
+
+        private void Principal_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                timer1.Enabled = true;
+                timer1.Start();
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Entidades;
+﻿using Datos.Entidades;
+using Modelo;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ namespace Presentacion.Interfaces
 {
     public interface IPresentadorPrincipal
     {
-        DataTable CargarTareas();
+        List<Tareas> CargarTareas();
         void TareasAVencer();
     }
 }
