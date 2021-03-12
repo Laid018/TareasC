@@ -55,8 +55,15 @@ namespace Datos.Entidades
             return ws.TareasProximasComenzar(id);
         }
 
-            // BUSCAR TAREA
-            public List<Tareas> BuscarTareas(string titulo)
+        // MOSTRAR TAREAS PROXIMAS A VENCER
+        public List<Tareas> MostrarTareasProximasComenzar(int id)
+        {
+            WSTareas.WSTareas ws = new WSTareas.WSTareas();
+            return ws.MostrarTareasProximasComenzar(id);
+        }
+
+        // BUSCAR TAREA
+        public List<Tareas> BuscarTareas(string titulo)
         {
             WSTareas.WSTareas ws = new WSTareas.WSTareas();
             return ws.BuscarTareas(titulo);

@@ -47,6 +47,7 @@ namespace Presentacion
             //this.tareasTableAdapter.Fill(this.tareaDS.tareas);
             dataGridView1.DataSource = CargarTareas();
             TareasAVencer();
+
             if (_presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)) == null)
                 BarCompletada.Value = 0;
             else
@@ -161,6 +162,18 @@ namespace Presentacion
             }
         }
 
+        ////public void TareasAComenzar()
+        ////{
+        ////    if (_presenter.MostrarTareasProximasComenzar(Convert.ToInt32(txtId.Text)) == null)
+        ////    {
+        ////        dataGridView4.DataSource = null;
+        ////    }
+        ////    else
+        ////    {
+        ////        dataGridView4.DataSource = _presenter.MostrarTareasProximasComenzar(Convert.ToInt32(txtId.Text)).ToList();
+        ////    }
+        ////}
+
         private void btnVerTareasCompletadas_Click(object sender, EventArgs e)
         {
             if (_presenter.MostrarTareasCompletadas(Convert.ToInt32(txtId.Text)) == null)
@@ -243,9 +256,9 @@ namespace Presentacion
                     // Nombre al pasar cursor sobre el icono
                     notifyIcon1.Text = "Ver tarea próxima a comenzar";
                     // Titulo de la notificación
-                    notifyIcon1.BalloonTipText = "Tiene una tarea proxima por comenzar";
+                    notifyIcon1.BalloonTipText = "Tiene una tarea próxima por comenzar";
                     // Texto dentro de la notificación
-                    notifyIcon1.BalloonTipText = "Haz click para visualizar las tareas que contienes.";
+                    notifyIcon1.BalloonTipText = "Haz click para visualizar las tareas próximas a comenzar.";
                     // Icono que sale en la notificación
                     notifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
 

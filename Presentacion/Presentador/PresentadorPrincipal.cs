@@ -36,6 +36,11 @@ namespace Presentacion.Presentador
             return _tarea.MostrarTareasProximasVencer(id);            
         }
 
+        public List<Tareas> MostrarTareasProximasComenzar(int id)
+        {
+            return _tarea.MostrarTareasProximasComenzar(id);
+        }
+
         public bool TareasProximasComenzar(int id)
         {
             return _tarea.TareasProximasComenzar(id);

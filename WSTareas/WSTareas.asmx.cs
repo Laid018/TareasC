@@ -135,12 +135,12 @@ namespace WSTareas
         {
             //List<Tareas> _list = new List<Tareas>();
             //con ="select * , DATEDiFF(day,FechaFin, GETDATE()) as fechaVencimiento from Tareas where IdPersona = @id";
-            DateTime now = DateTime.UtcNow;
+            var now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             using (var db = new TareaEntities1())
             {
 
-                var tareas = db.tareas.Where(t => SqlFunctions.DateDiff("DAY", t.FechaFin, now) < 5
-                                            && SqlFunctions.DateDiff("DAY", t.FechaFin, now) > 0
+                var tareas = db.tareas.Where(t => SqlFunctions.DateDiff("dd", now, t.FechaFin) < 5
+                                            && SqlFunctions.DateDiff("dd", now, t.FechaFin) > 0
                                             && t.IdPersona == id)
                                       .Select(t => new Tareas
                                       {
@@ -170,21 +170,50 @@ namespace WSTareas
             {
                 //var query = "select datediff(MI,GETDATE(),dbo.tareas.FechaInicio) as minuto from dbo.tareas" +
                 //     "where datediff(MI,GETDATE(), dbo.tareas.FechaInicio) > 0 AND datediff(MI,GETDATE(), dbo.tareas.FechaInicio) < 4;";
-               
+
                 //var list = db.tareas.SqlQuery("select datediff(MI, GETDATE(), tareas.FechaInicio) as minuto from tareas" +
                 //    "where datediff(MI,GETDATE(), tareas.FechaInicio) > 0 AND datediff(MI,GETDATE(), tareas.FechaInicio) < 4 and tareas.IdPersona ="+id+";").First();
+
+                var time = DateTime.Now.AddMinutes(5);
 
                 var result = db.tareas.Where(t => SqlFunctions.DateDiff("MI", now, t.FechaInicio) > 0 
                                                 && SqlFunctions.DateDiff("MI", now, t.FechaInicio) < 4 
                                                 && t.IdPersona == id).ToList();
 
-                if (result.Count() > 0)
-                    return true;
-                else
-                    return false;
+                return result.Count() > 0;
                 
             }
         }
+
+        // MOSTRAR TAREAS PROXIMAS A COMENZAR
+        public List<Tareas> MostrarTareasProximasComenzar(int id)
+        {
+            var now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            using (var db = new TareaEntities1())
+            {
+
+                var tareas = db.tareas.Where(t => SqlFunctions.DateDiff("MI", now, t.FechaInicio) > 0
+                                                && SqlFunctions.DateDiff("MI", now, t.FechaInicio) < 4
+                                                && t.IdPersona == id)
+                                      .Select(t => new Tareas
+                                      {
+                                          Id = t.Id,
+                                          Titulo = t.Titulo,
+                                          Descripcion = t.Descripcion,
+                                          Color = t.Color,
+                                          FechaInicio = t.FechaInicio,
+                                          FechaFin = t.FechaFin,
+                                          IdPersona = t.IdPersona,
+                                          porcentaje = t.porcentaje
+                                      }).ToList();
+
+                if (tareas.Count() > 0)
+                    return tareas;
+                else
+                    return null;
+            }
+        }
+
 
         // BUSCAR TAREA
         [WebMethod]
