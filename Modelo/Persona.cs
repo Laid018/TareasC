@@ -12,9 +12,9 @@ namespace Modelo
         public string nombre { get; set; }
         public string apellido { get; set; }
         public int dni { get; set; }
-        public Nullable<int> telefono { get; set; }
+        public int? telefono { get; set; }
         public string direccion { get; set; }
-        public Nullable<int> IdUsuario { get; set; }
+        public int? IdUsuario { get; set; }
 
         public virtual List<Tareas> tareas { get; set; }
         public virtual Usuario usuario { get; set; }

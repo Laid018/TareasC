@@ -133,8 +133,6 @@ namespace WSTareas
         // MOSTRAR TAREAS PROXIMAS A VENCER
         public List<Tareas> MostrarTareasProximasVencer(int id)
         {
-            //List<Tareas> _list = new List<Tareas>();
-            //con ="select * , DATEDiFF(day,FechaFin, GETDATE()) as fechaVencimiento from Tareas where IdPersona = @id";
             var now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             using (var db = new TareaEntities1())
             {
@@ -164,16 +162,9 @@ namespace WSTareas
         // Tareas que esten a 15 min de comenzar
         public bool TareasProximasComenzar(int id)
         {
-            //var now = DateTime.UtcNow;
             var now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             using (var db = new TareaEntities1())
             {
-                //var query = "select datediff(MI,GETDATE(),dbo.tareas.FechaInicio) as minuto from dbo.tareas" +
-                //     "where datediff(MI,GETDATE(), dbo.tareas.FechaInicio) > 0 AND datediff(MI,GETDATE(), dbo.tareas.FechaInicio) < 4;";
-
-                //var list = db.tareas.SqlQuery("select datediff(MI, GETDATE(), tareas.FechaInicio) as minuto from tareas" +
-                //    "where datediff(MI,GETDATE(), tareas.FechaInicio) > 0 AND datediff(MI,GETDATE(), tareas.FechaInicio) < 4 and tareas.IdPersona ="+id+";").First();
-
                 var time = DateTime.Now.AddMinutes(5);
 
                 var result = db.tareas.Where(t => SqlFunctions.DateDiff("MI", now, t.FechaInicio) > 0 
@@ -258,6 +249,7 @@ namespace WSTareas
                    return list;
             }
         }
+
         // MOSTRAR TAREAS COMPLETADAS
         [WebMethod]
         public List<Tareas> MostrarTareasCompletadas(int id)
@@ -278,6 +270,7 @@ namespace WSTareas
                 return list;
             }
         }
+
         // BUSCAR TAREAS PENDIENTES
         [WebMethod]
         public List<Tareas> BuscarTareasPendientes(string titulo, int id)
@@ -300,6 +293,7 @@ namespace WSTareas
                 return list;
             }
         }
+
         // MOSTRAR TAREAS PENDIENTES
         [WebMethod]
         public List<Tareas> MostrarTareasPendientes(int id)
@@ -320,6 +314,7 @@ namespace WSTareas
                 return list;
             }
         }
+
         // BUSCAR TAREAS SIN COMENZAR
         [WebMethod]
         public List<Tareas> BuscarTareasSinComenzar(string titulo, int id)
@@ -342,6 +337,7 @@ namespace WSTareas
                 return list;
             }
         }
+
         // MOSTRAR TAREAS SIN COMENZAR
         [WebMethod]
         public List<Tareas> MostrarTareasSinComenzar(int id)
@@ -377,8 +373,6 @@ namespace WSTareas
 
                 // Obtener id del usuario ingresado
                 var id = ObtenerUltimoId();
-                //var tareas = db.tareas.SqlQuery("SELECT MAX(Id) as Id FROM usuario").ToList().First();
-                //int IdUsuario = tareas.Id;
 
                 persona person = new persona();
                 person.nombre = p.nombre;

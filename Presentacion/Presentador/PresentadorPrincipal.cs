@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Presentacion.Interfaces;
 using Datos.Entidades;
 using Modelo;
-using System.Data;
 
 namespace Presentacion.Presentador
 {

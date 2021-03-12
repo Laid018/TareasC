@@ -48,7 +48,7 @@ namespace Datos.Entidades
             return ws.MostrarTareasProximasVencer(id);
         }
 
-        // Tareas que esten a 15 min de comenzar
+        // Tareas que esten a 4 min de comenzar
         public bool TareasProximasComenzar(int id)
         {
             WSTareas.WSTareas ws = new WSTareas.WSTareas();

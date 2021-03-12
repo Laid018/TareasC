@@ -16,8 +16,8 @@ namespace Modelo
         public string Color { get; set; }
         public System.DateTime FechaInicio { get; set; }
         public System.DateTime FechaFin { get; set; }
-        public Nullable<int> IdPersona { get; set; }
-        public Nullable<int> porcentaje { get; set; }
+        public int? IdPersona { get; set; }
+        public int? porcentaje { get; set; }
 
 
     }
